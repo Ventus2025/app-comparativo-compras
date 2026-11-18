@@ -1,0 +1,5 @@
+# Fin de línea LF en todos los archivos de texto: build.js --check compara byte a byte con lo que hay en Apps Script
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
