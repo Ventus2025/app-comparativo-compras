@@ -166,7 +166,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(min-width:1101px){.kpis{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media print{.barra-global,.barra-modulos,#nav,#enc{display:none!important}.wrap{padding:0!important}}
 </style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap"></head><body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-ventus" viewBox="0 0 150 21.3"><g fill="currentColor"><polygon points="0 .23 3.02 .23 12.67 18.46 22.31 .23 25.34 .23 14.32 20.99 11.02 20.99 0 .23"/><polygon points="27.17 .23 46.71 .23 46.71 2.52 29.86 2.52 29.86 9.15 46.05 9.15 46.05 11.44 29.86 11.44 29.86 18.69 46.82 18.69 46.82 20.99 27.17 20.99 27.17 .23"/><polygon points="49.37 .23 53.38 .23 71.6 18.46 71.6 .23 74.29 .23 74.29 20.99 70.28 20.99 52.06 2.75 52.06 20.99 49.37 20.99 49.37 .23"/><polygon points="85.9 2.52 75.85 2.52 75.85 .23 98.66 .23 98.66 2.52 88.6 2.52 88.6 20.99 85.9 20.99 85.9 2.52"/><path d="M100.38.23h2.69v15.51c0,2.01.66,3.18,4.31,3.18h9.34c3.65,0,4.31-1.18,4.31-3.18V.23h2.69v15.54c0,4.21-2.03,5.45-7.09,5.45h-9.18c-5.06,0-7.09-1.23-7.09-5.45V.23Z"/><path d="M127.14,14.45h2.53v1.46c0,2.04,1.04,3.01,4.4,3.01h8.36c3.9,0,5.06-.86,5.06-3.84,0-2.61-.99-3.27-4.34-3.27h-5.12c-8.21,0-10.91-.52-10.91-6.02,0-4.73,2.69-5.79,8.24-5.79h5.8c6.68,0,8.35,1.78,8.35,5.48v.72h-2.53c-.05-3.3-.39-3.9-7.45-3.9h-2.86c-5.19,0-7.03.29-7.03,3.7,0,2.46.74,3.3,4.95,3.3h7.97c5.25,0,7.45,1.57,7.45,5.1v1.35c0,5.1-4.01,5.48-8,5.48h-7.47c-3.93,0-7.39-.72-7.39-5.25v-1.52Z"/></g></symbol></svg><header class="barra-global"><span class="marca-app" aria-label="Ventus · Comparativo"><svg class="logo-ventus" viewBox="0 0 150 21.3" aria-hidden="true"><use href="#logo-ventus"/></svg><span class="pildora-app">Comparativo</span></span><div class="acciones-globales"><span id="prs" class="svs prs"></span><span id="svs" class="svs" onclick="rpSave()" title="Estado del guardado en línea"></span><span id="who" class="avatar" role="img"></span></div><img id="hlg" alt="" hidden></header><div class="barra-modulos"><span class="nombre-app">Comparativo Comercial e Informe de Adjudicación<small>FO 08-04-04 · PR-34 rev. 16</small></span><div class="hb"><button id="bun" onclick="unDo()" title="Deshacer (Ctrl+Z)">↶ Deshacer</button><button id="bre" onclick="unRe()" title="Rehacer (Ctrl+Y)">↷ Rehacer</button><button onclick="rpHistOpen()" data-srv>Historial</button><button onclick="borrador()" title="Descarga el proceso como archivo .json (por ejemplo, para adjuntarlo); se puede volver a abrir con Importar borrador">Guardar borrador</button><label><span id="opl">Abrir progreso</span><input type="file" accept=".json" hidden onchange="openF(this)"></label><label class="amb" title="Temporal: suba el cuadro comparativo en Excel que se hizo antes del app (FO 08-04-04 o FO 08-04-08) y se crea un proceso nuevo con los ofertantes, las condiciones, las líneas, los precios y lo adjudicado">Ampliación de OC · cuadro anterior<input type="file" accept=".xlsx,.xlsm,.xls" hidden onchange="amAbrir(this)"></label><button onclick="rpNuevo()">Nuevo</button><button onclick="abrirManual()" title="Abre el manual de uso en una pestaña nueva">Manual</button></div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-ventus" viewBox="0 0 150 21.3"><g fill="currentColor"><polygon points="0 .23 3.02 .23 12.67 18.46 22.31 .23 25.34 .23 14.32 20.99 11.02 20.99 0 .23"/><polygon points="27.17 .23 46.71 .23 46.71 2.52 29.86 2.52 29.86 9.15 46.05 9.15 46.05 11.44 29.86 11.44 29.86 18.69 46.82 18.69 46.82 20.99 27.17 20.99 27.17 .23"/><polygon points="49.37 .23 53.38 .23 71.6 18.46 71.6 .23 74.29 .23 74.29 20.99 70.28 20.99 52.06 2.75 52.06 20.99 49.37 20.99 49.37 .23"/><polygon points="85.9 2.52 75.85 2.52 75.85 .23 98.66 .23 98.66 2.52 88.6 2.52 88.6 20.99 85.9 20.99 85.9 2.52"/><path d="M100.38.23h2.69v15.51c0,2.01.66,3.18,4.31,3.18h9.34c3.65,0,4.31-1.18,4.31-3.18V.23h2.69v15.54c0,4.21-2.03,5.45-7.09,5.45h-9.18c-5.06,0-7.09-1.23-7.09-5.45V.23Z"/><path d="M127.14,14.45h2.53v1.46c0,2.04,1.04,3.01,4.4,3.01h8.36c3.9,0,5.06-.86,5.06-3.84,0-2.61-.99-3.27-4.34-3.27h-5.12c-8.21,0-10.91-.52-10.91-6.02,0-4.73,2.69-5.79,8.24-5.79h5.8c6.68,0,8.35,1.78,8.35,5.48v.72h-2.53c-.05-3.3-.39-3.9-7.45-3.9h-2.86c-5.19,0-7.03.29-7.03,3.7,0,2.46.74,3.3,4.95,3.3h7.97c5.25,0,7.45,1.57,7.45,5.1v1.35c0,5.1-4.01,5.48-8,5.48h-7.47c-3.93,0-7.39-.72-7.39-5.25v-1.52Z"/></g></symbol></svg><header class="barra-global"><span class="marca-app" aria-label="Ventus · Comparativo"><svg class="logo-ventus" viewBox="0 0 150 21.3" aria-hidden="true"><use href="#logo-ventus"/></svg><span class="pildora-app">Comparativo</span></span><div class="acciones-globales"><span id="prs" class="svs prs"></span><span id="svs" class="svs" onclick="rpSave()" title="Estado del guardado en línea"></span><span id="who" class="avatar" role="img"></span></div><img id="hlg" alt="" hidden></header><div class="barra-modulos"><span class="nombre-app">Comparativo Comercial e Informe de Adjudicación<small>FO 08-04-04 · PR-34 rev. 16</small></span><div class="hb"><button id="bun" onclick="unDo()" title="Deshacer (Ctrl+Z)">↶ Deshacer</button><button id="bre" onclick="unRe()" title="Rehacer (Ctrl+Y)">↷ Rehacer</button><button onclick="rpHistOpen()" data-srv>Historial</button><button onclick="borrador()" title="Descarga el proceso como archivo .json (por ejemplo, para adjuntarlo); se puede volver a abrir con Importar borrador">Guardar borrador</button><label><span id="opl">Abrir progreso</span><input type="file" accept=".json" hidden onchange="openF(this)"></label><label class="amb" title="Temporal: suba el cuadro comparativo en Excel que se hizo antes del app (FO 08-04-04 o FO 08-04-08). Se leen todas sus hojas (resumen de adjudicación, presupuesto, comparativo y flujo) y se crea un proceso nuevo">Ampliación de OC · cuadro anterior<input type="file" accept=".xlsx,.xlsm,.xls" hidden onchange="amAbrir(this)"></label><button onclick="rpNuevo()">Nuevo</button><button onclick="abrirManual()" title="Abre el manual de uso en una pestaña nueva">Manual</button></div></div>
 <div class="wrap"><div>
 <div id="rob" class="card rob" style="display:none"></div><div id="cmob"></div><div id="enc"></div><div id="kpi" class="kpis"></div><nav id="nav"></nav><div id="form"></div><div id="doc" style="display:none"></div><details class="card"><summary>¿Por qué es importante este cuadro?</summary><ul>
 <li>Es la evidencia de que Ventus compró al mejor precio y bajo condiciones comparables (PR-34, 4.7). Si no está claro, no se puede defender ante auditoría ni ante el cliente.</li>
@@ -1061,8 +1061,9 @@ const IMD={d:['descrip -rubro','detalle','producto','articulo','material','conce
 pu:['unit -unid','unitario','pu','p u','vr unit','precio -total','valor -total','costo -total'],pt:['total','importe','subtotal','parcial']};
 const IMN={d:'Descripción (o Detalle, Producto, Ítem…)',u:'Unidad (o Und, U.M., Medida…)',q:'Cant. (o Cantidad, Qty…)',bi:'Rubro del presupuesto (o Rubro, Partida, Capítulo)'};
 // ---- Ampliación de OC · cuadro anterior (botón temporal de la barra): lee el cuadro comparativo que se hacía en Excel antes del app
-// (FO 08-04-04 Comparativo Comercial V5 o FO 08-04-08 Comparativo Consumibles V2) y crea un proceso nuevo con los datos de la compra,
-// los ofertantes y sus condiciones (hoja 4), las líneas y precios (hoja 5) y lo adjudicado en cada línea. Presupuesto y flujo no se leen.
+// (FO 08-04-04 Comparativo Comercial V5 o FO 08-04-08 Comparativo Consumibles V2) y crea un proceso nuevo. Lee todas las hojas del libro:
+// Resumen de adjudicación (datos de la compra, presupuesto por rubro, proveedor seleccionado, hito y forma de pago, consideraciones),
+// Presupuesto (rubros), Comparativo (ofertantes, condiciones, lo que Ventus requiere, líneas, precios, IVA, adjudicación) y Flujo de caja.
 let AMR=null;
 const amD=d=>d instanceof Date&&!isNaN(d)?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`:'';
 const amT=v=>v==null?'':v instanceof Date?amD(v):String(v).replace(/\s+/g,' ').trim();
@@ -1074,8 +1075,16 @@ const amCol=(A,row,re,from=0,to=1e4)=>{const R=A[row]||[];for(let c=from;c<Math.
 const AMLB=/^(gestorcompra|fechaactualizacion|centrodecostos?|cc|tipodecompra|descripciondelacompra|provedorseleccionado|proveedorseleccionado|monedaoferta|trm)$/;
 function amRight(A,p,n=3){if(!p)return'';const R=A[p.r];for(let c=p.c+1;c<=p.c+n&&c<R.length;c++){const t=amT(R[c]);if(t)return/:$/.test(t)||AMLB.test(imNz(t))?'':R[c]}return''}
 const amBelow=(A,p)=>p&&A[p.r+1]?A[p.r+1][p.c]:'';
+const amUq=(a,sep,max=4)=>{const o=[];a.forEach(x=>{const t=amT(x);if(t&&!o.some(y=>imNz(y)===imNz(t)))o.push(t)});return o.length>max?o.slice(0,max).join(sep)+sep+'…':o.join(sep)};
 function amDur(v,u){const U=s=>{const z=imNz(s);return/^dias?(habiles|calendario)?$/.test(z)?'Días':/^semanas?$/.test(z)?'Semanas':/^mes(es)?$/.test(z)?'Meses':''};
 if(typeof v=='number')return{n:v,u:U(amT(u))};const m=amT(v).match(/^(\d+(?:[.,]\d+)?)\s*([a-záéíóú]+(?:\s+h[aá]biles)?)?$/i);return m?{n:+m[1].replace(',','.'),u:U(m[2]||amT(u))}:{n:'',u:''}}
+// nombre parecido en una lista (igual sin mayúsculas/tildes, o la mayoría de sus palabras en común); -1 si no hay uno claro
+function amMatch(n,L){const z=imNz(n);if(!z)return -1;const k=L.findIndex(x=>imNz(x)===z);if(k>=0)return k;
+const tk=s=>String(s).split(/[^A-Za-zÀ-ÿ0-9]+/).map(imNz).filter(w=>w.length>2&&!/^(sas|ltda|cia|sa|y)$/.test(w)),a=tk(n);let best=-1,bs=0,tie=false;
+L.forEach((x,i)=>{const b=tk(x),c=a.filter(w=>b.includes(w)).length,sc=c/Math.max(1,Math.min(a.length,b.length));if(sc>bs){bs=sc;best=i;tie=false}else if(sc===bs&&sc>0)tie=true});return bs>=0.6&&!tie?best:-1}
+// gestor: nombre igual o usuario tipo "ahernandez" (inicial del nombre + un apellido)
+function amGes(u){const z=imNz(u);if(!z)return'';return GES.find(x=>imNz(x)===z)||GES.find(x=>{const w=String(x).split(/\s+/).map(imNz).filter(Boolean);return w.length>1&&w.slice(1).some(s=>z===w[0][0]+s)})||''}
+const amRc=c=>(SAPL.rc.find(x=>x[0]===c)||[])[1]||'';
 // una condición comercial de un ofertante (mismos rótulos en los dos formatos)
 function amCond(p,lab,v,u){const t=amT(v),x=p.x;
 if(/^condicionescomerciales|^fechacotiz/.test(lab)){if(v instanceof Date)x.f=amD(v);const q=amT(u);if(q&&/^condicionescomerciales/.test(lab))p.nt.push('Cotización '+q);return}
@@ -1095,71 +1104,135 @@ if(/^plazodegarantia|^garantiatecnica/.test(lab)){const d=amDur(v,u);if(d.n!==''
 if(/^especificaciones/.test(lab)){const z=imNz(t);x.sp=/^nocumple/.test(z)?'No cumple':/parcial/.test(z)?'Cumple parcial':/^(cumple|si|ok)$/.test(z)?'Cumple':'';if(!x.sp)p.nt.push('Especificaciones técnicas: '+t);return}
 if(/^desviaciones|^exclusiones/.test(lab)){x.ex=t;return}
 if(/^observaciones/.test(lab))p.nt.push(t)}
+// lo que Ventus requiere (columna "Presupuesto de la compra" de las condiciones del FO 08-04-04)
+function amReq(q,lab,v,u,g){let t=amT(v);if(!t&&typeof g=='string'&&/[a-z]/i.test(g)){v=g;t=amT(g)}if(!t||/^(cop|usd|eur)$/i.test(t))return;
+if(/^plazodeentrega/.test(lab)){const n=amN(v);if(n>0)q.plazo=String(n)}else if(/^lugar/.test(lab))q.lugar=t;else if(/^hito/.test(lab))q.hito=t;
+else if(/^formadepago/.test(lab)){const w=amT(u);q.pago=typeof v=='number'&&/^d/i.test(w)?v+' '+w:t}else if(/^plazodegarantia/.test(lab)){const n=amN(v);if(n>0)q.gt=String(n)}else if(/^formuladeajuste/.test(lab))q.ajuste=t}
 const amPU=(a,b,q)=>a>0?a:b>0&&q>0?b/q:'';
 const amIva=(p,v)=>{if(v!=null&&v>=0)p.ir=v<1?Math.round(v*1000)/10:v};
 const amDto=(p,v)=>{if(v>0)p.dc=v<1?Math.round(v*10000)/100:v};
 // FO 08-04-04 Comparativo Comercial: condiciones arriba (una columna doble por proveedor), líneas desde "Detalle de la Compra"
 function amF4(A){const h=amFind(A,/^detalledelacompra$/);if(!h)return null;const pr=amFind(A,/^proveedores$/,0,h.r);if(!pr)return null;
 const dc=h.c,uc=amCol(A,h.r,/^unidad/),qc=amCol(A,h.r,/^cantidad/),pbc=amCol(A,pr.r,/presupuesto/),sp=amFind(A,/^proveedorseleccionado$/,0,pr.r+1),co=amFind(A,/^cotizaciones$/,0,pr.r+1);
-const selc=sp?sp.c:-1,c0=co?co.c:selc>=0?selc+2:pbc+4,P=[];for(let c=c0;c<A[pr.r].length;c+=2){const n=amT(A[pr.r][c]);if(n)P.push({n,c,x:{},nt:[]})}
-for(let r=pr.r+1;r<h.r;r++){const lab=imNz(A[r][dc]);if(lab)P.forEach(p=>amCond(p,lab,A[r][p.c],A[r][p.c+1]))}
-const L=[];let r=h.r+1;for(;r<A.length;r++){const R=A[r],d=amT(R[dc]);if(/^subtotal/.test(imNz(d)))break;if(!d)continue;const q=amN(R[qc]);
+const selc=sp?sp.c:-1,c0=co?co.c:selc>=0?selc+2:pbc+4,P=[],Q={};for(let c=c0;c<A[pr.r].length;c+=2){const n=amT(A[pr.r][c]);if(n)P.push({n,c,x:{},nt:[]})}
+for(let r=pr.r+1;r<h.r;r++){const lab=imNz(A[r][dc]);if(!lab)continue;P.forEach(p=>amCond(p,lab,A[r][p.c],A[r][p.c+1]));if(pbc>=0)amReq(Q,lab,A[r][pbc],A[r][pbc+1],A[r][pbc-1])}
+const L=[];let r=h.r+1;for(;r<A.length;r++){const R=A[r];let d=amT(R[dc]),q=amN(R[qc]);if(/^subtotal/.test(imNz(d)))break;if(!d)continue;
+// columna antes de la descripción: a veces es un multiplicador (p. ej. meses) que el Excel usa en el total; se pasa a la cantidad
+const f=amN(R[dc-1]);if(q>0&&f>1&&[pbc,...P.map(p=>p.c)].some(c=>c>=0&&amN(R[c])>0&&Math.abs(amN(R[c+1])-amN(R[c])*q*f)<=Math.max(1,amN(R[c+1])*0.001))){d=`${d} (${q} × ${f})`;q=q*f}
 L.push({d,u:amT(R[uc]),q:q==null?'':q,pb:pbc>=0?amPU(amN(R[pbc]),amN(R[pbc+1]),q):'',p:P.map(p=>({pu:amPU(amN(R[p.c]),amN(R[p.c+1]),q)})),sel:selc>=0&&amN(R[selc])>0?amT(A[pr.r][selc]):''})}
 for(let rr=r;rr<Math.min(A.length,r+10);rr++){const lab=imNz(A[rr][dc]);if(/^descuento/.test(lab))P.forEach(p=>amDto(p,amN(A[rr][p.c])));if(/^iva/.test(lab))P.forEach(p=>amIva(p,amN(A[rr][p.c])))}
-const g=(re,f)=>{const p=amFind(A,re,0,h.r);return p?f(A,p):''};
-return{P,L,I:{cc:amT(g(/^cc$/,amRight)),gestor:amT(g(/^gestorcompra$/,amRight)),desc:amT(g(/^descripciondelacompra$/,amBelow)),fs:g(/^fechasolicitud$/,amBelow),sol:amT(g(/^solicitante$/,amBelow)),tipo:amT(g(/^tipodecompra$/,amBelow)),trm:amN(g(/^dolarproyecto/,amBelow))}}}
-// FO 08-04-08 Comparativo Consumibles: una hoja por grupo; cada proveedor ocupa un bloque (precio unitario, descripción, subtotal); condiciones debajo
-function amF8(A){const h=amFind(A,/^suministro$/);if(!h||h.r<1)return null;const hr=h.r,top=hr-1,dc=h.c,uc=amCol(A,hr,/^unidad/),qc=amCol(A,hr,/^cantidad/),spc=amCol(A,hr,/^especificaciones/);
+const g=(re,f)=>{const p=amFind(A,re,0,h.r);return p?f(A,p):''},fa=g(/^fechaactualizacion$/,amRight);
+return{P,L,Q,I:{cc:amT(g(/^cc$/,amRight)),gestor:amT(g(/^gestorcompra$/,amRight)),fa:fa instanceof Date?fa:null,desc:amT(g(/^descripciondelacompra$/,amBelow)),fs:g(/^fechasolicitud$/,amBelow),sol:amT(g(/^solicitante$/,amBelow)),tipo:amT(g(/^tipodecompra$/,amBelow)),trm:amN(g(/^dolarproyecto/,amBelow))}}}
+// FO 08-04-08 Comparativo Consumibles: una hoja por grupo; cada proveedor ocupa un bloque (precio unitario, descripción, subtotal); condiciones debajo.
+// De las columnas de cada línea también se toman solicitante, No. RQ, fecha requerida y lugar de entrega.
+function amF8(A){const h=amFind(A,/^suministro$/);if(!h||h.r<1)return null;const hr=h.r,top=hr-1,dc=h.c,cl=re=>amCol(A,hr,re),uc=cl(/^unidad/),qc=cl(/^cantidad/),spc=cl(/^especificaciones/);
+const solc=cl(/^solicitante$/),resc=cl(/^responsablesolicitud/),rqc=cl(/^norq$/),entc=cl(/^entrega$/),lugc=cl(/^lugardeentrega$/);
 let pbc=amCol(A,top,/^presupuesto$/);if(pbc>=0&&/^moneda/.test(imNz(A[hr][pbc])))pbc++;const selc=amCol(A,top,/^proveedorseleccionado$/),lim=Math.max(dc,pbc,spc);
 const P=[];A[top].forEach((v,c)=>{const n=amT(v);if(n&&c>lim&&!/^(proveedorseleccionado|presupuesto|datostecnicos|descripcion|fecha)/.test(imNz(n)))P.push({n,c,x:{},nt:[]})});
 P.forEach((p,i)=>{const e=i+1<P.length?P[i+1].c:p.c+3,f=(re,d)=>{const c=amCol(A,hr,re,p.c,e);return c<0?d:c};p.e=e;p.uc=f(/precio|unit/,p.c);p.dsc=f(/descrip|marca|modelo/,p.c+1);p.tc=f(/subtotal|total/,p.c+2)});
-const L=[];let r=hr+1,empty=0;for(;r<A.length;r++){const R=A[r];if(R.some(v=>typeof v=='string'&&/^subtotal/.test(imNz(v))))break;const d=amT(R[dc]);if(!d){if(++empty>5)break;continue}empty=0;
+const L=[],SO=[],RQ=[],LU=[];let fn=null,r=hr+1,empty=0;for(;r<A.length;r++){const R=A[r];if(R.some(v=>typeof v=='string'&&/^subtotal/.test(imNz(v))))break;const d=amT(R[dc]);if(!d){if(++empty>5)break;continue}empty=0;
 const q=amN(R[qc]),spec=spc>=0?amT(R[spc]):'',pt=pbc>=0?amN(R[pbc]):null,sel=selc>=0?amT(R[selc]):'';
+[solc,resc].forEach(c=>{if(c>=0)SO.push(R[c])});if(rqc>=0)RQ.push(R[rqc]);if(lugc>=0)LU.push(R[lugc]);if(entc>=0&&R[entc] instanceof Date&&(!fn||R[entc]<fn))fn=R[entc];
 L.push({d:spec&&imNz(spec)!==imNz(d)?d+' – '+spec:d,u:amT(R[uc]),q:q==null?'':q,pb:pt>0&&q>0?pt/q:'',p:P.map(p=>{const ds=amT(R[p.dsc]);return{pu:amPU(amN(R[p.uc]),amN(R[p.tc]),q),ob:ds&&imNz(ds)!==imNz(d)?ds:''}}),sel:/^seleccione/.test(imNz(sel))?'':sel})}
 for(let rr=r;rr<A.length;rr++){const R=A[rr];P.forEach(p=>{for(let c=p.c;c<p.e;c++){const v=R[c];if(typeof v!='string')continue;const lab=imNz(v);
 if(/^iva/.test(lab)){amIva(p,amN(R[p.c]));continue}if(/^descuento/.test(lab)){amDto(p,amN(R[c+1])??amN(R[p.c]));continue}
 if(/^(formadepago|moneda|plazodeentrega|lugar|validez|hito|garantia|plazodegarantia|observaciones|contrato|especificaciones|desviaciones|exclusiones|formuladeajuste|evaluacion|fechacotiz)/.test(lab)&&A[rr+1])amCond(p,lab,A[rr+1][c],A[rr+1][c+1])}})}
-const below=re=>{const p=amFind(A,re,0,hr);return p?amBelow(A,p):''};
-return{P,L,I:{cc:amT(below(/^centrodecostos?$/)),gestor:amT(below(/^gestorcompra$/))}}}
+const below=re=>{const p=amFind(A,re,0,hr);return p?amBelow(A,p):''},fa=below(/^fechaactualizacion/),lu=amUq(LU,' / ',2);
+return{P,L,Q:lu?{lugar:lu}:{},I:{cc:amT(below(/^centrodecostos?$/)),gestor:amT(below(/^gestorcompra$/)),fa:fa instanceof Date?fa:null,sol:amUq(SO,', ',3),rq:amUq(RQ,'; ',8),fn}}}
+// hoja "Resumen Adjudicación": datos de la compra, proveedor seleccionado, montos, presupuesto por rubro (hasta 4 columnas), hito, pago, consideraciones
+function amRes(A){const f=re=>amFind(A,re),R=re=>{const p=f(re);return p?amRight(A,p,4):''},o={};
+o.cc=amT(R(/^centrodecosto/));o.gestor=amT(R(/^gestorcompra$/));if(!/[a-z]/i.test(o.gestor))o.gestor='';o.desc=amT(R(/^descripciondelacompra$/));o.sel=amT(R(/^prove?edorseleccionado$/));
+const tp=f(/^tipodecompra$/);if(tp){const a=amT(amRight(A,tp,2))||amT(amBelow(A,tp));if(/^(materiales|equipos|servicios)$/i.test(a))o.tipo=a.toUpperCase()}
+o.trm=amN(R(/^trm$/));o.hito=amT(R(/^hitodefacturacion$/));o.pago=amT(R(/^formadepago$/));o.resg=amT(R(/^resumendelproceso|^consideraciones/));
+const cm=f(/^comentariosdelpresupuesto/);if(cm)o.com=amT(amRight(A,cm,5))||amT(amBelow(A,cm));
+o.sub=amN(R(/^montosiniva/));o.iva=amN(R(/^montoiva/));o.tot=amN(R(/^totaloferta$/));
+const rr=f(/^rubropresupuesto$/),mr=f(/^(montopresupuesto|encashflow)$/),cr=f(/^comprometidoenocs/),mo=f(/^monedapresupuesto$/);o.rub=[];
+if(rr)for(let c=rr.c+1;c<7;c++){const r=amT(A[rr.r][c]),m=mr?amN(A[mr.r][c]):null,k=cr?amN(A[cr.r][c]):null;if(r&&!/:$/.test(r)||m>0)o.rub.push({r,m,k,mon:mo?amT(A[mo.r][c]).toUpperCase():''})}
+return o}
+// hoja "Presupuesto" (FO 08-04-04): rubros con lanzamiento y operativo, comprometido, IVA costo, forma de pago MEF y ubicación en drive
+function amPres(A){const h=amFind(A,/^idrubro$/);if(!h)return null;let sr=-1;for(let r=h.r;r<h.r+4&&r<A.length;r++)if(amCol(A,r,/^preciounitario$/)>=0){sr=r;break}if(sr<0)return null;
+const all=re=>{const o=[];(A[sr]||[]).forEach((v,c)=>{if(v!=null&&!(v instanceof Date)&&re.test(imNz(v)))o.push(c)});return o};
+const M=all(/^moneda$/),U=all(/^unidad$/),Qc=all(/^cantidad$/),Pc=all(/^preciounitario$/),V=all(/^valortotal$/),obc=amCol(A,sr,/^observaciones$/),itc=amCol(A,h.r,/^item$/),dc=amCol(A,h.r,/^descripcionrubro/);
+const rows=[];let r=sr+1;for(;r<A.length;r++){const R=A[r],g=c=>c!=null&&c>=0?R[c]:'';if(/^totalpresupuesto/.test(imNz(g(itc>=0?itc:h.c-1))))break;
+const x={it:amT(g(itc)),r:amT(R[h.c]),d:amT(g(dc)),lm:amT(g(M[0])).toUpperCase(),lu:amT(g(U[0])),lq:amN(g(Qc[0])),lp:amN(g(Pc[0])),lv:amN(g(V[0])),om:amT(g(M[1])).toUpperCase(),ou:amT(g(U[1])),oq:amN(g(Qc[1])),op:amN(g(Pc[1])),ov:amN(g(V[1])),ob:amT(g(obc))};
+if(x.lp>0||x.lv>0||x.op>0||x.ov>0)rows.push(x)}
+const cmp=amFind(A,/^comprometidoalafecha/,r),txt=re=>{const p=amFind(A,re,r);if(!p)return'';const t=amT(amRight(A,p,3));return/^(ejem|indicar)/i.test(t)?'':t};
+return{rows,cl:cmp&&V[0]!=null?amN(A[cmp.r][V[0]]):null,co:cmp&&V[1]!=null?amN(A[cmp.r][V[1]]):null,iva:txt(/^eliva/),mef:txt(/^formadepagosegunmef/),drive:txt(/^ubicacionendrive/)}}
+// hoja "Flujo de Caja_Pagos": mes, pagos planificados y según la oferta (se ignora la fila de ejemplo de la plantilla: 10.000 / 8.000)
+function amFlujo(A){const h=amFind(A,/^mes$/);if(!h)return null;const bc=amCol(A,h.r,/planific/),oc=amCol(A,h.r,/oferta/);if(bc<0&&oc<0)return null;const o=[];
+for(let r=h.r+1;r<A.length;r++){const R=A[r];if(amN(R[h.c])==null)break;const b=bc>=0?amN(R[bc]):null,c=oc>=0?amN(R[oc]):null;o.push({b:b>0?b:0,c:c>0?c:0})}
+while(o.length&&!o[o.length-1].b&&!o[o.length-1].c)o.pop();if(!o.length||o.length==1&&o[0].b==10000&&o[0].c==8000)return null;return o}
 function amLeer(wb){const sh=wb.SheetNames.map(n=>({n,A:amGrid(wb.Sheets[n])}));let R=null;
 for(const x of sh){const r=amF4(x.A);if(r&&r.L.length){R=Object.assign(r,{fmt:'FO 08-04-04 · Comparativo Comercial',hojas:[x.n]});break}}
 if(!R){let ps=sh.map(x=>({x,r:amF8(x.A)})).filter(o=>o.r&&o.r.L.length);const pr=ps.filter(o=>o.r.L.some(l=>l.p.some(p=>p.pu!=='')));if(pr.length)ps=pr;
-if(ps.length){const G=[],I={};ps.forEach(({r})=>{r.ix=r.P.map(p=>{let g=G.find(q=>imNz(q.n)===imNz(p.n));if(!g){g={n:p.n,x:{},nt:[]};G.push(g)}Object.assign(g.x,p.x);p.nt.forEach(t=>{if(!g.nt.includes(t))g.nt.push(t)});if(p.ir!=null)g.ir=p.ir;if(p.dc!=null)g.dc=p.dc;return G.indexOf(g)});Object.keys(r.I).forEach(k=>{if(!I[k]&&r.I[k])I[k]=r.I[k]})});
+if(ps.length){const G=[],I={},Q={};ps.forEach(({r})=>{r.ix=r.P.map(p=>{let g=G.find(q=>imNz(q.n)===imNz(p.n));if(!g){g={n:p.n,x:{},nt:[]};G.push(g)}Object.assign(g.x,p.x);p.nt.forEach(t=>{if(!g.nt.includes(t))g.nt.push(t)});if(p.ir!=null)g.ir=p.ir;if(p.dc!=null)g.dc=p.dc;return G.indexOf(g)});
+Object.keys(r.I).forEach(k=>{if(!I[k]&&r.I[k])I[k]=r.I[k]});Object.keys(r.Q).forEach(k=>{if(!Q[k])Q[k]=r.Q[k]})});
 const L=[];ps.forEach(({r})=>r.L.forEach(l=>L.push(Object.assign({},l,{p:G.map((g,gi)=>{const k=r.ix.indexOf(gi);return k<0?{pu:''}:l.p[k]})}))));
-R={P:G,L,I,fmt:'FO 08-04-08 · Comparativo Consumibles',hojas:ps.map(o=>o.x.n)}}}
+R={P:G,L,Q,I,fmt:'FO 08-04-08 · Comparativo Consumibles',hojas:ps.map(o=>o.x.n)}}}
 if(!R)return{err:'No reconocí el formato del archivo. Debe ser el cuadro comparativo en Excel que se usaba antes del app (FO 08-04-04 Comparativo Comercial o FO 08-04-08 Comparativo Consumibles), con la fila "Detalle de la Compra" o "Suministro" y los proveedores en columnas.'};
-const rs=sh.find(x=>amFind(x.A,/^resumenejecutivodeadjudicacion/));if(rs){const A=rs.A,lab=re=>{const p=amFind(A,re);return p?amRight(A,p,4):''};
-if(!R.I.cc)R.I.cc=amT(lab(/^centrodecosto/));if(!R.I.desc)R.I.desc=amT(lab(/^descripciondelacompra/));if(!R.I.trm)R.I.trm=amN(lab(/^trm$/));R.I.resg=amT(lab(/^resumendelproceso|^consideraciones/))}
+if(!/[a-z]/i.test(R.I.gestor||''))R.I.gestor='';
+const rs=sh.find(x=>amFind(x.A,/^resumenejecutivodeadjudicacion/));if(rs){R.RS=amRes(rs.A);R.hojas.unshift(rs.n);['cc','gestor','desc','tipo','trm'].forEach(k=>{if(!R.I[k]&&R.RS[k])R.I[k]=R.RS[k]});if(R.RS.resg)R.I.resg=R.RS.resg}
+for(const x of sh){if(R.hojas.includes(x.n))continue;const p=amPres(x.A);if(p&&(p.rows.length||p.cl||p.co||p.iva||p.mef||p.drive)){R.PRES=p;R.hojas.push(x.n);break}}
+for(const x of sh){if(R.hojas.includes(x.n))continue;const f=amFlujo(x.A);if(f){R.FL=f;R.hojas.push(x.n);break}}
 return R}
 // arma el proceso nuevo con lo leído; devuelve también un resumen de lo que se llenó y lo que falta revisar
-function amArmar(R){const s=DEF(),I=R.I,av=[];
-const code=(String(I.cc||'').trim().match(/^\d+(\.\d+)?/)||[''])[0],cc=code&&CCS.find(x=>x.split(' ')[0]===code);if(cc)s.cc=cc;else if(I.cc)av.push(`Centro de costo: el Excel dice "${I.cc}" y no está en la lista; elíjalo en la hoja 1.`);
-const gz=imNz(I.gestor),ge=gz&&GES.find(x=>imNz(x)===gz);if(ge)s.gestor=ge;
-if(I.desc)s.desc=I.desc;if(I.sol)s.sol=I.sol;const tz=String(I.tipo||'').toUpperCase().trim();if(['MATERIALES','EQUIPOS','SERVICIOS'].includes(tz))s.tipo=tz;if(I.trm>0)s.trm=String(I.trm);const fs=I.fs instanceof Date?amD(I.fs):'';if(fs)s.fs=fs;if(I.resg)s.resg=I.resg;
+function amArmar(R){const s=DEF(),I=R.I,RS=R.RS||{},av=[],h1=[];
+const code=(String(I.cc||'').trim().match(/^\d+(\.\d+)?/)||[''])[0],cc=code&&CCS.find(x=>x.split(' ')[0]===code);if(cc){s.cc=cc;h1.push('centro de costo')}else if(I.cc)av.push(`Centro de costo: el Excel dice "${I.cc}" y no está en la lista; elíjalo en la hoja 1.`);
+const ge=amGes(I.gestor);if(ge){s.gestor=ge;h1.push('gestor')}else if(I.gestor)av.push(`Gestor: el Excel dice "${I.gestor}" y no lo encontré en la lista; elíjalo en la hoja 1.`);
+const fa=I.fa instanceof Date?amD(I.fa):'';if(fa){s.fa=fa;h1.push('fecha de actualización')}const fs=I.fs instanceof Date?amD(I.fs):'';if(fs){s.fs=fs;h1.push('fecha de solicitud')}
+const fn=I.fn instanceof Date?amD(I.fn):'';if(fn){s.fn=fn;h1.push('fecha de necesidad (la más próxima)')}if(I.rq){s.rq=I.rq;h1.push('RQ')}
+if(I.sol){s.sol=I.sol;h1.push('solicitante')}const tz=String(I.tipo||'').toUpperCase().trim();if(['MATERIALES','EQUIPOS','SERVICIOS'].includes(tz)){s.tipo=tz;h1.push('tipo de compra')}
+if(I.trm>0){s.trm=String(I.trm);h1.push('TRM')}if(I.desc){s.desc=I.desc;h1.push('descripción')}if(I.resg){s.resg=I.resg;h1.push('resumen del proceso')}
 const P=R.P.map((p,k)=>({p,k,np:R.L.filter(l=>l.p[k].pu!=='').length})).filter(o=>o.np||!/^proveedor\d*$/.test(imNz(o.p.n))&&Object.keys(o.p.x).length);
-if(!P.length)return{err:'Encontré las líneas, pero ningún proveedor con precios.'};
+if(!P.length)return{err:'Encontré las líneas, pero ningún proveedor con precios.'};const PN0=P.map(o=>o.p.n);
 const mon=P.map(o=>o.p.x.mc||o.p.x.mv).find(m=>MON.includes(m))||'COP';s.mon=mon;
 s.prov=P.map(({p})=>{const o=Object.assign(NP(),{mv:mon,mc:mon},p.x,{n:p.n});if(!MON.includes(o.mv))o.mv=mon;if(!MON.includes(o.mc))o.mc=mon;o.ob=p.nt.join('\n');if(p.dc!=null)o.dc=String(p.dc);return o});
-const n4=v=>v===''||v==null?'':String(+(+v).toFixed(4));let ad=0;
+const n4=v=>v===''||v==null?'':String(+(+v).toFixed(4));let ad=0,adr=0;
 s.items=R.L.map(l=>{const u=IMU[imNz(l.u).toUpperCase()]||String(l.u).toUpperCase(),it=Object.assign(NI(),{d:l.d,u,q:l.q===''?'':String(l.q),pb:n4(l.pb)});
 it.p=P.map(({p,k})=>{const x=l.p[k],o={pu:n4(x.pu),u};if(x.ob)o.ob=x.ob;if(p.ir===0)o.iv=false;else if([19,8,5].includes(p.ir))o.ir=String(p.ir);return o});
-const k=l.sel?P.findIndex(o=>imNz(o.p.n)===imNz(l.sel)):-1;if(k>=0){it.s=String(k);it.sa=false;ad++}return it});
-// si el Excel ya traía lo adjudicado, se respeta tal cual (las líneas sin proveedor quedan sin adjudicar, sin sugerencia automática)
+const k=l.sel?amMatch(l.sel,PN0):-1;if(k>=0){it.s=String(k);it.sa=false;ad++}return it});
+// sin adjudicación por línea: se usa el "Proveedor seleccionado" del Resumen para las líneas que él cotizó
+const ks=RS.sel?amMatch(RS.sel,PN0):-1;if(!ad&&ks>=0)s.items.forEach(it=>{if(it.p[ks].pu!==''){it.s=String(ks);ad++;adr++}});
 if(ad)s.items.forEach(it=>it.sa=false);if(!s.items.length)s.items=[NI()];
-return{s,av,res:{fmt:R.fmt,hojas:R.hojas,prov:P.map(o=>({n:o.p.n,np:o.np})),nl:s.items.length,ad}}}
+// hito y forma de pago del Resumen: para el proveedor seleccionado si en el comparativo no estaban
+const kh=ks>=0?ks:ad?+Object.entries(s.items.reduce((a,it)=>{if(it.s!==''&&it.s!=='*')a[it.s]=(a[it.s]||0)+1;return a},{})).sort((a,b)=>b[1]-a[1])[0][0]:-1;
+if(kh>=0){const p=s.prov[kh];if(!p.hi&&RS.hito)p.hi=RS.hito;if(!p.pa&&RS.pago)p.pa=RS.pago}
+// lo que Ventus requiere (hoja 4)
+const Q=R.Q||{},rq=[];[['plazo','plazo de entrega'],['lugar','lugar de entrega'],['hito','hito de facturación'],['pago','forma de pago'],['gt','garantía técnica'],['ajuste','fórmula de ajuste']].forEach(([k,l])=>{if(Q[k]){s.req[k]=Q[k];rq.push(l)}});
+// presupuesto (hoja 2): hoja Presupuesto del libro o, si no, los rubros del Resumen (monto en operativo, que es lo que pide la plantilla)
+const PR=R.PRES;let bs='';
+if(PR&&PR.rows.length){s.bud.rub=PR.rows.map(x=>{const o=NR(),lq=x.lq!=null?x.lq:x.lv>0?1:'',lp=x.lp!=null?x.lp:x.lv>0?x.lv:'',oq=x.oq!=null?x.oq:x.ov>0?1:'',op=x.op!=null?x.op:x.ov>0?x.ov:'';
+Object.assign(o,{it:x.it,r:x.r,d:x.d||amRc(x.r),lm:MON.includes(x.lm)?x.lm:mon,lu:IMU[imNz(x.lu).toUpperCase()]||x.lu.toUpperCase(),lq:String(lq),lp:n4(lp),om:MON.includes(x.om)?x.om:mon,ou:IMU[imNz(x.ou).toUpperCase()]||x.ou.toUpperCase(),oq:String(oq),op:n4(op),ob:x.ob});return o});bs='hoja Presupuesto'}
+else if(RS.rub&&RS.rub.length){s.bud.rub=RS.rub.map(x=>Object.assign(NR(),{r:x.r,d:amRc(x.r),om:MON.includes(x.mon)?x.mon:mon,oq:x.m>0?'1':'',op:x.m>0?n4(x.m):''}));const k=RS.rub.reduce((a,x)=>a+(x.k>0?x.k:0),0);if(k>0)s.bud.co=n4(k);bs='Resumen'}
+if(PR){if(PR.cl>0)s.bud.cl=n4(PR.cl);if(PR.co>0)s.bud.co=n4(PR.co);if(PR.iva)s.bud.iva=/^s/i.test(PR.iva)?'Sí':/^no/i.test(PR.iva)?'No':'';if(PR.mef)s.bud.mef=PR.mef;if(PR.drive)s.bud.drive=PR.drive}
+if(RS.com)s.bud.obs=RS.com;
+if(bs&&s.bud.rub.length===1)s.items.forEach(it=>it.bi='0');
+s.bud.rub.forEach(r=>{if(r.r&&!amRc(r.r))av.push(`Rubro "${r.r}": no está en la lista de rubros de SAP; revíselo en la hoja 2.`)});
+// flujo de caja (hoja 3)
+if(R.FL){const tc=R.FL.reduce((a,x)=>a+x.c,0);s.fl.n=String(R.FL.length);s.fl.rows=R.FL.map((x,i)=>({mes:'Mes '+(i+1),pp:'',po:tc?String(+(x.c/tc*100).toFixed(2)):'',pa:x.b?String(x.b):''}))}
+// comprobación contra los montos del Resumen (del proveedor seleccionado; si no lo dice, contra cualquier proveedor adjudicado o el total)
+let tot=null,CA=null;const bk=S;try{S=s;syncP();CA=calc().A;tot=CA.reduce((a,x)=>a+x.tot,0)}catch(e){}finally{S=bk}
+if(CA&&(RS.sub>0||RS.tot>0)){const ok=(a,b)=>Math.abs(a-b)<=Math.max(1,b*0.005),C=(ks>=0?[CA[ks]]:CA.filter(x=>x.tot>0).concat(CA.length>1?[{sub:CA.reduce((a,x)=>a+x.sub,0),iva:CA.reduce((a,x)=>a+x.iva,0),tot}]:[]));
+const c=RS.sub>0?C.find(x=>ok(x.sub,RS.sub)):C.find(x=>ok(x.tot,RS.tot));
+if(!c){const b=C[0]||{sub:0,tot:0};av.push(`El Resumen del Excel dice ${RS.sub>0?F(RS.sub)+' sin IVA':F(RS.tot)+' total'}${ks>=0?' para '+PN0[ks]:''}; con lo cargado da ${F(RS.sub>0?b.sub:b.tot)}. Revise cantidades, precios y adjudicación.`)}
+else if(RS.iva!=null&&RS.sub>0&&!ok(c.iva,RS.iva))av.push(`IVA: el Resumen del Excel dice ${F(RS.iva)} y con lo cargado da ${F(c.iva)} (el app aplica el % de IVA a todas las líneas del proveedor). Revise el IVA de cada línea en la hoja 5.`)}
+return{s,av,res:{fmt:R.fmt,hojas:R.hojas,prov:P.map(o=>({n:o.p.n,np:o.np})),nl:s.items.length,ad,adr,sel:ks>=0?PN0[ks]:'',h1,rq,bs,nr:bs?s.bud.rub.length:0,br:s.bud.rub.map(r=>r.r).filter(Boolean),bt:s.bud.rub.reduce((a,r)=>a+N(r.lq)*N(r.lp)+N(r.oq)*N(r.op),0),fl:R.FL?R.FL.length:0,tot,rt:RS.tot}}}
 function amAbrir(i){const f=i.files[0];i.value='';if(!f)return;const rd=new FileReader();rd.onload=async()=>{let R;
 try{await xlsxLib();R=amLeer(XLSX.read(new Uint8Array(rd.result),{type:'array',cellDates:true}))}catch(e){return amDlg('No se pudo leer el archivo',`<p>${E(e&&e.message||e)}</p>`)}
-if(R.err)return amDlg('No se pudo cargar el cuadro',`<p>${E(R.err)}</p>`);const M=amArmar(R);if(M.err)return amDlg('No se pudo cargar el cuadro',`<p>${E(M.err)}</p>`);AMR=M;const x=M.res,s=M.s;
-amDlg('Ampliación de OC · cuadro anterior',`<p class="hint" style="margin:0 0 10px">Archivo <b>${E(f.name)}</b> · formato ${E(x.fmt)} · hoja(s) ${x.hojas.map(E).join(', ')}.</p>
+if(R.err)return amDlg('No se pudo cargar el cuadro',`<p>${E(R.err)}</p>`);const M=amArmar(R);if(M.err)return amDlg('No se pudo cargar el cuadro',`<p>${E(M.err)}</p>`);AMR=M;const x=M.res;
+amDlg('Ampliación de OC · cuadro anterior',`<p class="hint" style="margin:0 0 10px">Archivo <b>${E(f.name)}</b> · formato ${E(x.fmt)} · hojas leídas: ${x.hojas.map(E).join(', ')}.</p>
 <p style="margin:0 0 6px">Se creará un <b>proceso nuevo</b> con:</p><ul style="margin:0 0 10px;padding-left:20px;font-size:13.5px">
-<li><b>${x.prov.length}</b> ofertante(s) con sus condiciones: ${x.prov.map(p=>`${E(p.n)} (${p.np} precio${p.np==1?'':'s'})`).join(', ')}.</li>
-<li><b>${x.nl}</b> línea(s) con unidad, cantidad, presupuesto unitario y precios${x.ad?`; <b>${x.ad}</b> ya adjudicada(s) al proveedor seleccionado`:''}.</li>
-<li>Datos de la compra que traía el Excel: ${[s.cc&&'centro de costo',s.desc&&'descripción',s.sol&&'solicitante',s.tipo&&'tipo',s.trm&&'TRM',s.fs&&'fecha de solicitud',s.resg&&'resumen del proceso'].filter(Boolean).join(', ')||'ninguno'}.</li></ul>
+<li><b>Hoja 1 · Datos:</b> ${x.h1.length?x.h1.join(', '):'nada (el Excel no los traía)'}.</li>
+<li><b>Hoja 2 · Presupuesto:</b> ${x.nr?`${x.nr} rubro(s)${x.br.length?' ('+x.br.map(E).join(', ')+')':''} por ${F(x.bt)}, tomado(s) del ${E(x.bs)}`:'el Excel no traía presupuesto por rubro'}.</li>
+${x.fl?`<li><b>Hoja 3 · Flujo de caja:</b> ${x.fl} mes(es).</li>`:''}
+<li><b>Hoja 4 · Ofertantes:</b> ${x.prov.length} con sus condiciones: ${x.prov.map(p=>`${E(p.n)} (${p.np} precio${p.np==1?'':'s'})`).join(', ')}.${x.rq.length?` Lo que Ventus requiere: ${x.rq.join(', ')}.`:''}</li>
+<li><b>Hoja 5 · Precios:</b> ${x.nl} línea(s) con unidad, cantidad, presupuesto unitario y precios${x.ad?`; ${x.ad} adjudicada(s)${x.adr?` a ${E(x.sel)} (proveedor seleccionado en el Resumen)`:' como en el Excel'}`:'; sin adjudicar en el Excel (el app sugiere el menor precio)'}.</li>
+${x.tot!=null?`<li><b>Total adjudicado:</b> ${F(x.tot)}${x.rt>0?` · Resumen del Excel: ${F(x.rt)}`:''}.</li>`:''}</ul>
 ${M.av.length?`<p style="margin:0 0 8px;color:var(--r)">${M.av.map(E).join('<br>')}</p>`:''}
-<p class="hint" style="margin:0">No se llenan el presupuesto (hoja 2), el flujo de caja (hoja 3) ni los adjuntos. Revise cada hoja antes de sacar el informe: complete lo que falte y verifique precios, IVA y adjudicación. El proceso que tiene abierto no se modifica.</p>`,
+<p class="hint" style="margin:0">No se cargan los adjuntos (ofertas, aprobación técnica, otros anexos). Revise cada hoja con el panel Revisión antes de sacar el informe. El proceso que tiene abierto no se modifica.</p>`,
 'Crear proceso nuevo','amCrear()')};rd.readAsArrayBuffer(f)}
 function amDlg(t,h,ok,fn){amCerrar();const d=document.createElement('div');d.className='dlg';d.id='amd';d.onclick=e=>{if(e.target===d)amCerrar()};
-d.innerHTML=`<div class="dlc"><div class="mdh"><b>${E(t)}</b><button class="btn" onclick="amCerrar()">✕</button></div><div style="padding:18px 20px">${h}<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn" onclick="amCerrar()">${ok?'Cancelar':'Cerrar'}</button>${ok?`<button class="btn p" onclick="${fn}">${E(ok)}</button>`:''}</div></div></div>`;document.body.appendChild(d)}
+d.innerHTML=`<div class="dlc"><div class="mdh"><b>${E(t)}</b><button class="btn" onclick="amCerrar()">✕</button></div><div style="padding:18px 20px;max-height:80vh;overflow:auto">${h}<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn" onclick="amCerrar()">${ok?'Cancelar':'Cerrar'}</button>${ok?`<button class="btn p" onclick="${fn}">${E(ok)}</button>`:''}</div></div></div>`;document.body.appendChild(d)}
 function amCerrar(){const d=$('#amd');if(d)d.remove()}
 async function amCrear(){const M=AMR;amCerrar();if(!M)return;if(!await rpFlushOk())return;S=M.s;mig();FILES={t:{},o:{},a:{}};ORD={};PV={};VW=-2;
 Object.assign(RP,{id:'',ver:0,ro:false,info:null,last:SRV?'':null,rol:'dueno',inv:null});AMR=null;rpBanner();unReset();tab=4;build();scrollTo(0,0);if(SRV)rpSt('Cuadro anterior cargado: guardando como proceso nuevo…')}
