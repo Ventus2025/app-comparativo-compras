@@ -9,6 +9,9 @@
  *   el flujo de caja, "No hay presupuesto" y el rubro / presupuesto de lanzamiento de cada línea. Los CMO ven en solo lectura los procesos de su proyecto
  *   (según el centro de costo). Los cambios de dos personas a la vez se combinan campo por campo (mezcla_).
  * La hoja "Versiones" guarda copias periódicas de cada proceso para poder restaurarlas.
+ * Aprobación del informe (hoja "Aprobaciones"): el creador envía el informe a un flujo de aprobadores, que aprueban uno tras otro.
+ *   Mientras está en aprobación o aprobado, el proceso no se puede modificar. Si alguien rechaza (con motivo), vuelve al creador;
+ *   al reenviarlo empieza una ronda nueva y aprueban todos otra vez. Los aprobadores ven el proceso en solo lectura.
  * Los informes PDF descargados se copian en la carpeta de Drive "Comparativos – Informes PDF" (una subcarpeta por CC)
  * y quedan registrados en la hoja "Informes".
  */
@@ -34,6 +37,10 @@ const REPO_CMO = [
 // Los correos salen a nombre de Luis (procesos de obra) u Oscar (procesos de Bogotá), con respuesta y copia a ellos
 const REPO_REMITE = { obra: ['lquintero@ventus.global', 'Luis Quintero'], bogota: ['ovargas@ventus.global', 'Oscar Vargas'] };
 const REPO_CMOCOLS = ['proceso', 'cmo', 'nombre', 'enviadoPor', 'enviado', 'estado', 'completado'];
+// Aprobación del informe: estado = 'en aprobacion' | 'aprobado' | 'devuelto' (alguien rechazó) | 'retirado' (el creador lo retiró)
+const REPO_APRCOLS = ['proceso', 'estado', 'ronda', 'enviadoPor', 'enviado', 'version', 'flujo', 'historial'];
+const REPO_APRMAX = 10; // aprobadores por flujo
+const REPO_DOM = /^[^@\s]+@(ventus\.global|ventusconstrucciones\.com)$/;
 
 /** Ejecutar una vez desde el editor para autorizar los permisos y crear la hoja del repositorio. */
 function autorizar() {
@@ -42,6 +49,7 @@ function autorizar() {
   Logger.log('Carpeta de informes PDF: ' + carpetaPDF_().getUrl());
   Logger.log('Usuario: ' + Session.getActiveUser().getEmail());
   cmoSh_(ss);
+  aprSh_(ss);
   Logger.log('Correos disponibles hoy (solicitudes a CMO): ' + MailApp.getRemainingDailyQuota());
 }
 
@@ -263,11 +271,13 @@ function cmoProy_(e, cc) {
   return REPO_CMO.some(c => c[0] === e && c[3].indexOf(cod) >= 0);
 }
 
-/** Qué puede hacer el usuario con el proceso: 'dueno' (todo), 'cmo' (sus campos), 'lector' (ver) o '' (nada). */
-function acceso_(ss, e, m, inv, pf) {
+/** Qué puede hacer el usuario con el proceso: 'dueno' (todo), 'cmo' (sus campos), 'aprobador' (ver y aprobar), 'lector' (ver) o '' (nada). */
+function acceso_(ss, e, m, inv, pf, apr) {
   if (m.creador === e) return 'dueno';
   if (inv === undefined) inv = cmoDe_(ss, m.id);
   if (inv && inv.cmo === e) return 'cmo';
+  if (apr === undefined) apr = aprDe_(ss, m.id);
+  if (apr && (apr.flujo.some(x => x.e === e) || apr.historial.some(h => h.e === e))) return 'aprobador';
   if (puedeVer_(pf || perfil_(ss, e), m.creador) || cmoProy_(e, m.cc)) return 'lector';
   return '';
 }
@@ -315,12 +325,12 @@ function remite_(ss, creador) {
   return REPO_REMITE[b ? 'bogota' : 'obra'];
 }
 
-function correo_(ss, creador, para, asunto, titulo, cuerpo, url) {
+function correo_(ss, creador, para, asunto, titulo, cuerpo, url, boton) {
   const r = remite_(ss, creador);
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:auto;border:1px solid #d5dbd8;border-radius:10px;overflow:hidden">
 <div style="background:#33634a;color:#fff;padding:16px 22px;border-bottom:4px solid #e07a00"><div style="font-size:12px;opacity:.8">VENTUS · Comparativo Comercial</div><div style="font-size:19px;font-weight:bold;margin-top:4px">${titulo}</div></div>
 <div style="padding:20px 22px;color:#1d2421;font-size:14px;line-height:1.55">${cuerpo}
-${url ? `<p style="margin:22px 0 8px"><a href="${url}" style="background:#009a44;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:bold;display:inline-block">Abrir el proceso</a></p>` : ''}
+${url ? `<p style="margin:22px 0 8px"><a href="${url}" style="background:#009a44;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:bold;display:inline-block">${boton || 'Abrir el proceso'}</a></p>` : ''}
 <p style="color:#66716c;font-size:12px;margin-top:20px">Enviado desde el Comparativo Comercial de Ventus a nombre de ${r[1]}. Si tiene dudas, responda este correo.</p></div></div>`;
   MailApp.sendEmail({ to: para, cc: r[0] === para ? '' : r[0], replyTo: r[0], name: r[1] + ' – Compras Ventus', subject: asunto, htmlBody: html });
 }
@@ -382,6 +392,196 @@ function repoCmoCompleto(id) {
   return { inv: inv, aviso: aviso };
 }
 
+// ---- Aprobación del informe de adjudicación
+// Una fila por proceso en la hoja "Aprobaciones": flujo = aprobadores de la ronda actual, en orden
+// ({e, n, cargo, estado: 'pendiente' | 'aprobado' | 'rechazado', fecha, motivo}); historial = trazabilidad de todas las rondas
+// ({t, e, n, cargo, acc: 'envio' | 'aprobo' | 'rechazo' | 'retiro', ronda, motivo}).
+function aprSh_(ss) {
+  let sh = ss.getSheetByName('Aprobaciones');
+  if (!sh) {
+    sh = ss.insertSheet('Aprobaciones');
+    sh.getRange(1, 1, 1, REPO_APRCOLS.length).setValues([REPO_APRCOLS]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
+
+function aprFila_(r) {
+  const o = {}, js = v => { try { const x = JSON.parse(String(v || '[]')); return Array.isArray(x) ? x : []; } catch (e) { return []; } };
+  REPO_APRCOLS.forEach((c, i) => { o[c] = r[i] instanceof Date ? r[i].toISOString() : String(r[i] == null ? '' : r[i]); });
+  o.ronda = Number(o.ronda) || 0;
+  o.version = Number(o.version) || 0;
+  o.flujo = js(o.flujo);
+  o.historial = js(o.historial);
+  return o;
+}
+
+function aprTodas_(ss) {
+  const sh = aprSh_(ss), n = sh.getLastRow() - 1, o = {};
+  if (n > 0) sh.getRange(2, 1, n, REPO_APRCOLS.length).getValues().forEach(r => { if (r[0]) o[r[0]] = aprFila_(r); });
+  return o;
+}
+
+// Aprobación de un proceso (en caché, porque el pulso la consulta seguido); fresco = leer la hoja sin caché
+function aprDe_(ss, id, fresco) {
+  const c = CacheService.getScriptCache(), k = 'pa_' + id, x = fresco ? null : c.get(k);
+  if (x) return JSON.parse(x) || null;
+  const sh = aprSh_(ss), f = fila_(sh, id), a = f ? aprFila_(sh.getRange(f, 1, 1, REPO_APRCOLS.length).getValues()[0]) : null;
+  c.put(k, JSON.stringify(a), 21600);
+  return a;
+}
+
+function aprGuardar_(ss, a) {
+  const sh = aprSh_(ss), f = fila_(sh, a.proceso) || sh.getLastRow() + 1;
+  if (a.historial.length > 300) a.historial = a.historial.slice(-300);
+  sh.getRange(f, 1, 1, REPO_APRCOLS.length).setValues([REPO_APRCOLS.map(c => c === 'flujo' || c === 'historial' ? JSON.stringify(a[c]) : a[c] == null ? '' : a[c])]);
+  CacheService.getScriptCache().put('pa_' + a.proceso, JSON.stringify(a), 21600);
+}
+
+// en aprobación o aprobado: el proceso no se puede modificar
+function aprBloq_(a) {
+  return !!a && (a.estado === 'en aprobacion' || a.estado === 'aprobado');
+}
+
+function aprNoBloq_(ss, id) {
+  const a = aprDe_(ss, id);
+  if (!aprBloq_(a)) return;
+  throw new Error(a.estado === 'aprobado'
+    ? 'El informe ya está aprobado y el proceso no se puede modificar. Si necesita cambiarlo, use "Retirar aprobación" en la hoja 11 (se anulan las aprobaciones).'
+    : 'El proceso está en aprobación y no se puede modificar. Si necesita cambiarlo, use "Retirar de aprobación" en la hoja 11 (se anulan las aprobaciones de esta ronda).');
+}
+
+// a quién le toca aprobar ahora (el primero pendiente, en orden)
+function aprActual_(a) {
+  return a && a.estado === 'en aprobacion' ? a.flujo.find(x => x.estado === 'pendiente') || null : null;
+}
+
+// resumen para el Historial
+function aprRes_(a) {
+  if (!a) return null;
+  const cur = aprActual_(a);
+  return { estado: a.estado, ronda: a.ronda, ok: a.flujo.filter(x => x.estado === 'aprobado').length, n: a.flujo.length, act: cur ? { e: cur.e, n: cur.n, cargo: cur.cargo } : null };
+}
+
+const aprProc_ = S => [S.cc, S.desc].filter(Boolean).join(' – ') || 'sin nombre';
+const aprCaja_ = (S, extra) => `<p style="background:#f2f7f4;border-left:4px solid #009a44;padding:10px 14px;margin:12px 0"><b>${esc_(aprProc_(S))}</b>${S.gestor ? `<br><span style="color:#66716c">Gestor de compra: ${esc_(S.gestor)}</span>` : ''}${extra || ''}</p>`;
+const aprQuien_ = x => esc_(x.n) + (x.cargo ? ' (' + esc_(x.cargo) + ')' : '');
+
+// correo a quien le toca aprobar
+function aprAvisar_(ss, m, S, a) {
+  const cur = aprActual_(a);
+  if (!cur) return;
+  const i = a.flujo.indexOf(cur), antes = a.flujo.slice(0, i);
+  correo_(ss, m.creador, cur.e, `Aprobación pendiente: informe de adjudicación ${S.cc || ''}`.trim(), 'Tienes un informe de adjudicación por aprobar',
+    `<p>Hola ${esc_(cur.n)},</p><p><b>${esc_(nombreDe_(ss, m.creador))}</b> envió a aprobación el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+<p>Eres el paso <b>${i + 1} de ${a.flujo.length}</b> del flujo de aprobación${cur.cargo ? ` (${esc_(cur.cargo)})` : ''}.${antes.length ? ` Ya aprobaron: ${antes.map(aprQuien_).join(', ')}.` : ''}</p>
+<p>Abre el proceso (lo verás en solo lectura), revisa el informe en la hoja <b>11. Informe de adjudicación</b> y usa <b>“Aprobar”</b> o <b>“Rechazar”</b>. Si rechazas, escribe el motivo: el proceso vuelve al gestor para que lo corrija.</p>`, enlace_(m.id), 'Revisar y aprobar');
+}
+
+/** El creador envía el informe al flujo de aprobación (lista en orden de {e, cargo}). Empieza una ronda nueva. */
+function repoEnviarAprobacion(id, lista) {
+  const ss = repo_(), e = yo_(), x = procesoCmo_(ss, id), m = x.m, S = x.S;
+  if (m.creador !== e) throw new Error('Solo quien creó el proceso puede enviarlo a aprobación.');
+  const vistos = [], flujo = (lista || []).map(p => {
+    const c = String(p && p.e || '').trim().toLowerCase(), cargo = String(p && p.cargo || '').trim().slice(0, 80);
+    if (!REPO_DOM.test(c)) throw new Error(`"${c || '(vacío)'}" no es un correo @ventus.global o @ventusconstrucciones.com válido.`);
+    if (c === e) throw new Error('Usted no puede aprobar su propio proceso: quite su correo del flujo.');
+    if (vistos.indexOf(c) >= 0) throw new Error(`${c} está dos veces en el flujo.`);
+    vistos.push(c);
+    return { e: c, n: nombreDe_(ss, c), cargo: cargo, estado: 'pendiente', fecha: '', motivo: '' };
+  });
+  if (!flujo.length) throw new Error('Agregue al menos una persona al flujo de aprobación.');
+  if (flujo.length > REPO_APRMAX) throw new Error(`El flujo admite máximo ${REPO_APRMAX} aprobadores.`);
+  let a;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    const prev = aprDe_(ss, id, true);
+    if (aprBloq_(prev)) throw new Error(prev.estado === 'aprobado' ? 'El informe ya está aprobado.' : 'El informe ya está en aprobación.');
+    const now = new Date().toISOString(), ronda = (prev ? prev.ronda : 0) + 1;
+    a = { proceso: id, estado: 'en aprobacion', ronda: ronda, enviadoPor: e, enviado: now, version: m.version, flujo: flujo,
+      historial: (prev ? prev.historial : []).concat([{ t: now, e: e, n: nombreDe_(ss, e), cargo: 'Gestor de compra', acc: 'envio', ronda: ronda, motivo: flujo.map(f => f.n + (f.cargo ? ' (' + f.cargo + ')' : '')).join(' → ') }]) };
+    aprGuardar_(ss, a);
+    snap_(ss, id, e, m.version, m.cc, JSON.stringify(S)); // copia de lo que se envió a aprobar
+  } finally {
+    lock.releaseLock();
+  }
+  let aviso = '';
+  try { aprAvisar_(ss, m, S, a); } catch (err) { aviso = 'El flujo quedó registrado, pero no se pudo enviar el correo al primer aprobador: ' + (err && err.message || err); }
+  return { apr: a, aviso: aviso };
+}
+
+/** Quien tiene el turno aprueba (comentario opcional) o rechaza (motivo obligatorio). */
+function repoDecidirAprobacion(id, aprueba, motivo) {
+  const ss = repo_(), e = yo_(), x = procesoCmo_(ss, id), m = x.m, S = x.S;
+  motivo = String(motivo || '').trim().slice(0, 2000);
+  if (!aprueba && !motivo) throw new Error('Escriba el motivo del rechazo.');
+  let a, cur;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    a = aprDe_(ss, id, true);
+    cur = aprActual_(a);
+    if (!cur) throw new Error(a && a.estado === 'aprobado' ? 'El informe ya está aprobado.' : 'El informe ya no está en aprobación (quizás el gestor lo retiró o alguien lo rechazó).');
+    if (cur.e !== e) throw new Error(a.flujo.some(f => f.e === e && f.estado === 'pendiente') ? `Todavía no es su turno: falta la aprobación de ${cur.n}.` : 'Usted no tiene una aprobación pendiente en este proceso.');
+    const now = new Date().toISOString();
+    cur.estado = aprueba ? 'aprobado' : 'rechazado';
+    cur.fecha = now;
+    cur.motivo = motivo;
+    a.historial.push({ t: now, e: e, n: cur.n, cargo: cur.cargo, acc: aprueba ? 'aprobo' : 'rechazo', ronda: a.ronda, motivo: motivo });
+    if (!aprueba) a.estado = 'devuelto';
+    else if (!aprActual_(a)) a.estado = 'aprobado';
+    aprGuardar_(ss, a);
+  } finally {
+    lock.releaseLock();
+  }
+  let aviso = '';
+  try {
+    if (!aprueba) {
+      correo_(ss, m.creador, m.creador, `Informe de adjudicación devuelto: ${S.cc || ''}`.trim(), 'Te devolvieron el informe de adjudicación',
+        `<p><b>${aprQuien_(cur)}</b> rechazó el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+<p style="background:#fdeeee;border-left:4px solid #d9534f;padding:10px 14px;margin:12px 0"><b>Motivo:</b><br>${esc_(motivo).replace(/\n/g, '<br>')}</p>
+<p>El proceso quedó desbloqueado: corrígelo y vuelve a enviarlo a aprobación desde la hoja <b>11. Informe de adjudicación</b>. Todos los aprobadores tendrán que aprobar de nuevo.</p>`, enlace_(id));
+    } else if (a.estado === 'aprobado') {
+      correo_(ss, m.creador, m.creador, `Informe de adjudicación aprobado: ${S.cc || ''}`.trim(), 'El informe de adjudicación quedó aprobado',
+        `<p>Todos los aprobadores aprobaron el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+<ul style="padding-left:20px;margin:6px 0">${a.flujo.map(f => `<li>${aprQuien_(f)}</li>`).join('')}</ul>
+<p>Ya puedes descargar el informe en PDF desde la hoja <b>11</b>: las aprobaciones salen en el recuadro <b>APROBACIONES</b> del resumen.</p>`, enlace_(id));
+    } else aprAvisar_(ss, m, S, a);
+  } catch (err) { aviso = 'Su decisión quedó registrada, pero no se pudo enviar el correo: ' + (err && err.message || err); }
+  return { apr: a, aviso: aviso };
+}
+
+/** El creador retira el informe de la aprobación (o retira la aprobación ya dada) para poder modificar el proceso. */
+function repoRetirarAprobacion(id, motivo) {
+  const ss = repo_(), e = yo_(), x = procesoCmo_(ss, id), m = x.m, S = x.S;
+  if (m.creador !== e) throw new Error('Solo quien creó el proceso puede retirarlo de la aprobación.');
+  motivo = String(motivo || '').trim().slice(0, 2000);
+  let a, cur;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    a = aprDe_(ss, id, true);
+    if (!aprBloq_(a)) throw new Error('El informe no está en aprobación.');
+    cur = aprActual_(a);
+    const now = new Date().toISOString();
+    a.estado = 'retirado';
+    a.historial.push({ t: now, e: e, n: nombreDe_(ss, e), cargo: 'Gestor de compra', acc: 'retiro', ronda: a.ronda, motivo: motivo });
+    aprGuardar_(ss, a);
+  } finally {
+    lock.releaseLock();
+  }
+  let aviso = '';
+  if (cur) {
+    try {
+      correo_(ss, m.creador, cur.e, `Ya no se requiere tu aprobación: ${S.cc || ''}`.trim(), 'El gestor retiró el informe de la aprobación',
+        `<p>Hola ${esc_(cur.n)},</p><p><b>${esc_(nombreDe_(ss, e))}</b> retiró de la aprobación el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+${motivo ? `<p><b>Motivo:</b> ${esc_(motivo)}</p>` : ''}<p>Por ahora no tienes que hacer nada. Si lo vuelve a enviar, te llegará un correo nuevo.</p>`, '');
+    } catch (err) { aviso = 'Quedó retirado, pero no se pudo avisar por correo al aprobador: ' + (err && err.message || err); }
+  }
+  return { apr: a, aviso: aviso };
+}
+
 /** Pulso cada ~12 s mientras el proceso está abierto: versión guardada, quién más lo tiene abierto y estado del CMO. */
 function repoPulso(id) {
   const e = yo_(), c = CacheService.getScriptCache(), k = 'pp_' + id, now = Date.now();
@@ -397,14 +597,15 @@ function repoPulso(id) {
     ver = String(f ? meta_(sh.getRange(f, 1, 1, REPO_NC).getValues()[0]).version : 0);
     c.put('pv_' + id, ver, 21600);
   }
-  const ic = c.get('pc_' + id);
-  return { version: Number(ver), otros: Object.keys(pp).filter(x => x !== e), cmo: ic ? JSON.parse(ic) : cmoDe_(ss || repo_(), id) };
+  const ic = c.get('pc_' + id), ia = c.get('pa_' + id);
+  return { version: Number(ver), otros: Object.keys(pp).filter(x => x !== e), cmo: ic ? JSON.parse(ic) : cmoDe_(ss || (ss = repo_()), id), apr: ia ? JSON.parse(ia) : aprDe_(ss || repo_(), id) };
 }
 
 /** Aprobación del Gerente de Compras (único ofertante): se guarda en Drive junto a los informes del CC. */
 function repoAdjunto(id, nombre, b64) {
   const ss = repo_(), e = yo_(), x = procesoCmo_(ss, id);
   if (x.m.creador !== e) throw new Error('Solo quien creó el proceso puede adjuntar la aprobación.');
+  aprNoBloq_(ss, id);
   const raiz = carpetaPDF_(), sub = String(x.m.cc || 'Sin CC').replace(/[\\/]/g, '-').slice(0, 100);
   const it = raiz.getFoldersByName(sub), dir = it.hasNext() ? it.next() : raiz.createFolder(sub);
   const nm = ('Aprobación único ofertante – ' + String(nombre || 'aprobacion.pdf')).replace(/[\\/:*?"<>|]+/g, '_').slice(0, 150);
@@ -419,6 +620,7 @@ function repoAdjunto(id, nombre, b64) {
 function repoArchivo(id, nombre, tipo, b64) {
   const ss = repo_(), e = yo_(), x = procesoCmo_(ss, id);
   if (x.m.creador !== e) throw new Error('Solo quien creó el proceso puede adjuntar archivos.');
+  aprNoBloq_(ss, id);
   const raiz = carpetaPDF_(), sub = String(x.m.cc || 'Sin CC').replace(/[\\/]/g, '-').slice(0, 100);
   const it = raiz.getFoldersByName(sub), dir = it.hasNext() ? it.next() : raiz.createFolder(sub);
   const ia = dir.getFoldersByName('Adjuntos'), ad = ia.hasNext() ? ia.next() : dir.createFolder('Adjuntos');
@@ -509,14 +711,15 @@ function snap_(ss, proceso, usuario, version, cc, datos) {
 }
 
 function repoInicio() {
-  const ss = repo_(), e = yo_(), pf = perfil_(ss, e), inv = cmoTodas_(ss), nombres = {};
+  const ss = repo_(), e = yo_(), pf = perfil_(ss, e), inv = cmoTodas_(ss), apr = aprTodas_(ss), nombres = {};
   REPO_USUARIOS.forEach(r => { nombres[r[0]] = r[1]; });
   usuarios_(ss).rows.forEach(r => { if (r.e && r.n) nombres[r.e] = r.n; });
   REPO_CMO.forEach(c => { nombres[c[0]] = c[1]; });
   return {
     email: e, admin: pf.admin, equipos: pf.equipos, grupos: pf.grupos, nombres: nombres,
     cmo: REPO_CMO.map(c => ({ e: c[0], n: c[1], p: c[2], cs: c[3] })),
-    pend: Object.keys(inv).filter(k => inv[k].cmo === e && inv[k].estado === 'pendiente').length
+    pend: Object.keys(inv).filter(k => inv[k].cmo === e && inv[k].estado === 'pendiente').length,
+    aprPend: Object.keys(apr).filter(k => { const a = aprActual_(apr[k]); return a && a.e === e; }).length
   };
 }
 
@@ -524,12 +727,13 @@ function repoListar(verArchivados) {
   const ss = repo_(), e = yo_(), pf = perfil_(ss, e), sh = ss.getSheetByName('Procesos');
   const n = sh.getLastRow() - 1;
   if (n < 1) return [];
-  const inv = cmoTodas_(ss);
+  const inv = cmoTodas_(ss), apr = aprTodas_(ss);
   return sh.getRange(2, 1, n, REPO_NC).getValues().map(meta_)
     .filter(m => {
       if (!m.id || !(verArchivados || !m.archivado)) return false;
       m.cmo = inv[m.id] || null;
-      m.rol = acceso_(ss, e, m, m.cmo, pf);
+      m.rol = acceso_(ss, e, m, m.cmo, pf, apr[m.id] || null);
+      m.apr = aprRes_(apr[m.id]);
       return !!m.rol;
     })
     .sort((a, b) => String(b.modificado).localeCompare(String(a.modificado)));
@@ -540,10 +744,12 @@ function repoAbrir(id) {
   if (!f) throw new Error('El proceso ya no existe en el repositorio.');
   const r = sh.getRange(f, 1, 1, sh.getLastColumn()).getValues()[0], m = meta_(r);
   m.cmo = cmoDe_(ss, id);
-  m.rol = acceso_(ss, e, m, m.cmo);
+  m.apr = aprDe_(ss, id);
+  m.rol = acceso_(ss, e, m, m.cmo, undefined, m.apr);
   if (!m.rol) throw new Error('No tiene permiso para ver este proceso.');
   m.datos = unir_(r.slice(REPO_NC));
-  m.soloLectura = m.rol === 'lector';
+  m.bloqueo = aprBloq_(m.apr);
+  m.soloLectura = m.rol === 'lector' || m.rol === 'aprobador' || m.bloqueo;
   return m;
 }
 
@@ -563,6 +769,7 @@ function repoGuardar(id, datos, version, forzar, base) {
     if (f) {
       const r = sh.getRange(f, 1, 1, sh.getLastColumn()).getValues()[0], m = meta_(r), rol = acceso_(ss, e, m);
       if (rol !== 'dueno' && rol !== 'cmo') throw new Error('Solo quien creó el proceso (o el CMO al que se le envió) puede modificarlo. Use "Duplicar" para trabajar una copia propia.');
+      aprNoBloq_(ss, id);
       const cur = unir_(r.slice(REPO_NC));
       if (rol === 'cmo') S = mezcla_(JSON.parse(base || cur), S, JSON.parse(cur), [], cmoCampo_);
       else if (!forzar && m.version !== Number(version)) {

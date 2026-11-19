@@ -159,7 +159,7 @@ footer{color:var(--muted);font-size:13px;margin-top:14px}
         <li><span>4</span>Ofertantes, condiciones y compliance</li>
         <li><span>5</span>Precios y adjudicación por línea</li>
         <li><span>8</span>Adjuntos: ofertas, aprobaciones, anexos</li>
-        <li><span>11</span>Informe en PDF y firma</li>
+        <li><span>11</span>Informe en PDF y aprobación</li>
         <li class="hot"><span>12</span>Copiar y pegar en SAP</li>
       </ol>
     </div>
@@ -450,7 +450,21 @@ footer{color:var(--muted);font-size:13px;margin-top:14px}
       <ol class="steps">
         <li><span>Si falta algo obligatorio, el app le dice cuántos puntos faltan: revise el panel <b>Revisión</b>.</span></li>
         <li><span><b>Vista previa ampliada</b> para leerlo; <b>Miniaturas y ordenar páginas</b> para cambiar el orden.</span></li>
-        <li><span><b>Descargar PDF</b> o <b>Enviar a firma (Adobe Sign)</b>.</span></li>
+        <li><span><b>Descargar PDF</b>.</span></li>
+      </ol>
+      <h3 id="aprobacion">Enviar a aprobación</h3>
+      <p>El informe se aprueba dentro del app, ya no en Adobe Sign. Las personas aprueban una tras otra, en el orden que usted defina.</p>
+      <ol class="steps">
+        <li><span>En el recuadro <b>Aprobación del informe</b> (arriba de los informes) escriba el cargo y el correo de cada aprobador, en orden. El app propone los cargos que corresponden al monto (la misma ruta de la hoja 6); con <b>Flujo sugerido por el monto</b> los vuelve a poner. Mientras escribe el correo, el app sugiere las personas registradas.</span></li>
+        <li><span>Pulse <span class="btn">Enviar a aprobación</span>. Solo se puede enviar cuando el informe no tiene puntos obligatorios pendientes. Al primero le llega un correo con el enlace al proceso; cuando aprueba, le llega al siguiente.</span></li>
+        <li><span>Mientras está en aprobación, el proceso queda <b>bloqueado</b>: nadie puede cambiarlo, para que todos aprueben lo mismo. Si necesita corregir algo, use <b>Retirar de aprobación</b>; se anulan las aprobaciones de esa ronda y luego lo vuelve a enviar.</span></li>
+        <li><span>Cuando aprueban todos, le llega un correo y el informe queda <b>Aprobado</b>. Descargue el PDF: en el resumen, el recuadro <b>APROBACIONES</b> muestra el nombre, el cargo y la fecha de cada aprobación.</span></li>
+      </ol>
+      <div class="note plum"><b class="k">Si alguien rechaza</b><p>Quien rechaza debe escribir el motivo. A usted le llega un correo con el motivo y el proceso se desbloquea para que lo corrija. Al volver a enviarlo empieza una ronda nueva y <b>todos aprueban otra vez</b>. Los rechazos y sus motivos quedan en la <b>Trazabilidad del proceso</b> (hoja 11), pero <b>no salen en el PDF</b>: el informe muestra solo las aprobaciones.</p></div>
+      <h3>Si a usted le toca aprobar</h3>
+      <ol class="steps">
+        <li><span>Abra el enlace del correo, o el app: en el <b>Historial</b> aparece arriba <b>Informes por aprobar</b>. El proceso se abre en solo lectura: puede revisar todas las hojas y el informe (vista previa o PDF), pero no cambiar nada.</span></li>
+        <li><span>Pulse <span class="btn">✓ Aprobar</span> (puede dejar un comentario, que no sale en el PDF) o <span class="btn">✗ Rechazar</span> y escriba el motivo. El rechazo devuelve el proceso al gestor de compra.</span></li>
       </ol>
     </section>
 
@@ -501,6 +515,7 @@ footer{color:var(--muted);font-size:13px;margin-top:14px}
       <h2>Preguntas rápidas</h2>
       <details><summary>¿Tengo que guardar?</summary><p>No. El proceso se guarda en línea al escribir. "Guardar borrador" es solo una copia aparte en su computador.</p></details>
       <details><summary>¿Puedo cerrar y seguir después?</summary><p>Sí. Ábralo desde <b>Historial</b> o con el mismo enlace. Los adjuntos siguen ahí.</p></details>
+      <details><summary>¿Cómo sé en qué va la aprobación de un informe?</summary><p>En la hoja 11, el recuadro <b>Aprobación del informe</b> muestra quién ya aprobó y a quién le toca. En <b>Trazabilidad del proceso</b> está todo el historial: envíos, aprobaciones, rechazos con su motivo y retiros. En el <b>Historial</b>, la columna <b>Aprobación</b> muestra el estado de cada proceso.</p></details>
       <details><summary>¿Por qué no me deja descargar el informe?</summary><p>Faltan puntos obligatorios. El número rojo de cada hoja y el panel <b>Revisión</b> le dicen cuáles. Uno de ellos puede ser un proveedor adjudicado sin compliance vigente (hoja 6).</p></details>
       <details><summary>Dice "Proveedor no identificado", pero sí existe</summary><p>Elíjalo de la lista de sugerencias en vez de escribir el nombre completo: así queda el nombre exacto de la base. Si no aparece ni por nombre, ni por nombre de fantasía, ni por NIT, búsquelo en la base de proveedores; si confirma que tiene el compliance vigente, marque la casilla <b>Proveedor con compliance vigente</b>.</p></details>
       <details><summary>Actualizaron la base y el app sigue mostrando lo anterior</summary><p>El app guarda la consulta unos 10 minutos para ir rápido. Espere un momento y vuelva a abrir el app.</p></details>
