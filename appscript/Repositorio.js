@@ -327,11 +327,15 @@ function remite_(ss, creador) {
 
 function correo_(ss, creador, para, asunto, titulo, cuerpo, url, boton) {
   const r = remite_(ss, creador);
+  const btn = url ? `<p style="margin:18px 0 18px"><a href="${url}" style="background:#009a44;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:bold;display:inline-block">${boton || 'Abrir el proceso'}</a></p>` : '';
+  const arriba = cuerpo.indexOf('{{BOTON}}') >= 0;
+  cuerpo = cuerpo.split('{{BOTON}}').join(btn);
+  const cuando = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota', dateStyle: 'short', timeStyle: 'short' });
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:auto;border:1px solid #d5dbd8;border-radius:10px;overflow:hidden">
 <div style="background:#33634a;color:#fff;padding:16px 22px;border-bottom:4px solid #e07a00"><div style="font-size:12px;opacity:.8">VENTUS · Comparativo Comercial</div><div style="font-size:19px;font-weight:bold;margin-top:4px">${titulo}</div></div>
 <div style="padding:20px 22px;color:#1d2421;font-size:14px;line-height:1.55">${cuerpo}
-${url ? `<p style="margin:22px 0 8px"><a href="${url}" style="background:#009a44;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:bold;display:inline-block">${boton || 'Abrir el proceso'}</a></p>` : ''}
-<p style="color:#66716c;font-size:12px;margin-top:20px">Enviado desde el Comparativo Comercial de Ventus a nombre de ${r[1]}. Si tiene dudas, responda este correo.</p></div></div>`;
+${arriba ? '' : btn}
+<p style="color:#66716c;font-size:12px;margin-top:20px">Enviado el ${cuando} desde el Comparativo Comercial de Ventus a nombre de ${r[1]}. Si tiene dudas, responda este correo.</p></div></div>`;
   MailApp.sendEmail({ to: para, cc: r[0] === para ? '' : r[0], replyTo: r[0], name: r[1] + ' – Compras Ventus', subject: asunto, htmlBody: html });
 }
 
@@ -473,9 +477,9 @@ function aprAvisar_(ss, m, S, a) {
   if (!cur) return;
   const i = a.flujo.indexOf(cur), antes = a.flujo.slice(0, i);
   correo_(ss, m.creador, cur.e, `Aprobación pendiente: informe de adjudicación ${S.cc || ''}`.trim(), 'Tienes un informe de adjudicación por aprobar',
-    `<p>Hola ${esc_(cur.n)},</p><p><b>${esc_(nombreDe_(ss, m.creador))}</b> envió a aprobación el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+    `<p>Hola ${esc_(cur.n)},</p><p><b>${esc_(nombreDe_(ss, m.creador))}</b> envió a aprobación el informe de adjudicación del proceso:</p>${aprCaja_(S)}{{BOTON}}
 <p>Eres el paso <b>${i + 1} de ${a.flujo.length}</b> del flujo de aprobación${cur.cargo ? ` (${esc_(cur.cargo)})` : ''}.${antes.length ? ` Ya aprobaron: ${antes.map(aprQuien_).join(', ')}.` : ''}</p>
-<p>Abre el proceso (lo verás en solo lectura), revisa el informe en la hoja <b>11. Informe de adjudicación</b> y usa <b>“Aprobar”</b> o <b>“Rechazar”</b>. Si rechazas, escribe el motivo: el proceso vuelve al gestor para que lo corrija.</p>`, enlace_(m.id), 'Revisar y aprobar');
+<p>El botón abre el informe de adjudicación completo, con <b>“Aprobar”</b> y <b>“Rechazar”</b> arriba. Si apruebas, el comentario es opcional; si rechazas, escribe el motivo: el proceso vuelve al gestor para que lo corrija.</p>`, enlace_(m.id), 'Revisar y aprobar');
 }
 
 /** El creador envía el informe al flujo de aprobación (lista en orden de {e, cargo}). Empieza una ronda nueva. */
@@ -539,12 +543,12 @@ function repoDecidirAprobacion(id, aprueba, motivo) {
   try {
     if (!aprueba) {
       correo_(ss, m.creador, m.creador, `Informe de adjudicación devuelto: ${S.cc || ''}`.trim(), 'Te devolvieron el informe de adjudicación',
-        `<p><b>${aprQuien_(cur)}</b> rechazó el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+        `<p><b>${aprQuien_(cur)}</b> rechazó el informe de adjudicación del proceso:</p>${aprCaja_(S)}{{BOTON}}
 <p style="background:#fdeeee;border-left:4px solid #d9534f;padding:10px 14px;margin:12px 0"><b>Motivo:</b><br>${esc_(motivo).replace(/\n/g, '<br>')}</p>
 <p>El proceso quedó desbloqueado: corrígelo y vuelve a enviarlo a aprobación desde la hoja <b>11. Informe de adjudicación</b>. Todos los aprobadores tendrán que aprobar de nuevo.</p>`, enlace_(id));
     } else if (a.estado === 'aprobado') {
       correo_(ss, m.creador, m.creador, `Informe de adjudicación aprobado: ${S.cc || ''}`.trim(), 'El informe de adjudicación quedó aprobado',
-        `<p>Todos los aprobadores aprobaron el informe de adjudicación del proceso:</p>${aprCaja_(S)}
+        `<p>Todos los aprobadores aprobaron el informe de adjudicación del proceso:</p>${aprCaja_(S)}{{BOTON}}
 <ul style="padding-left:20px;margin:6px 0">${a.flujo.map(f => `<li>${aprQuien_(f)}</li>`).join('')}</ul>
 <p>Ya puedes descargar el informe en PDF desde la hoja <b>11</b>: las aprobaciones salen en el recuadro <b>APROBACIONES</b> del resumen.</p>`, enlace_(id));
     } else aprAvisar_(ss, m, S, a);
